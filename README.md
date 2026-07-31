@@ -1,120 +1,80 @@
-# React + Vite + shadcn/ui Starter Template
+# 🖐️ Gesture Navigator
 
-A modern React starter template built with Vite, TypeScript, Tailwind CSS, and shadcn/ui components.
+**Touchless, vision-controlled navigation — powered by deep learning.**
 
-## 🚀 Features
-
-- ⚡️ **Vite** - Fast build tool and development server
-- ⚛️ **React 18** - Latest React with hooks support
-- 🎯 **TypeScript** - Type safety and better developer experience
-- 🎨 **Tailwind CSS** - Utility-first CSS framework
-- 🧩 **shadcn/ui** - Beautifully designed components built with Radix UI
-- 📦 **Path Mapping** - Clean imports with `@/` prefix
-
-## 📦 Included shadcn/ui Components
-
-- Button
-- Card
-- Input
-- Label
-- Badge
-- Dialog
-- And more...
-
-## 🛠️ Getting Started
-
-1. **Install dependencies**
-
-   ```bash
-   npm install
-   ```
-
-2. **Start development server**
-
-   ```bash
-   npm run dev
-   ```
-
-3. **Build for production**
-
-   ```bash
-   npm run build
-   ```
-
-4. **Preview production build**
-   ```bash
-   npm run preview
-   ```
-
-## 📁 Project Structure
-
-```
-src/
-├── components/
-│   └── ui/              # shadcn/ui components
-├── lib/
-│   └── utils.ts         # Utility functions
-├── App.tsx              # Main application component
-├── index.css            # Global styles with Tailwind
-└── main.tsx             # Application entry point
-```
-
-## 🎨 Customization
-
-### Adding New shadcn/ui Components
-
-This template is pre-configured with shadcn/ui. You can add more components by creating them in the `src/components/ui/` directory.
-
-### Tailwind Configuration
-
-The Tailwind configuration is set up with shadcn/ui color variables. You can customize colors and other design tokens in:
-
-- `tailwind.config.js` - Tailwind configuration
-- `src/index.css` - CSS custom properties for themes
-
-### TypeScript Configuration
-
-Path mapping is configured for clean imports:
-
-```typescript
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-```
-
-## 🌗 Dark Mode
-
-The template includes dark mode support through Tailwind's `dark:` classes and CSS custom properties.
-
-## 📚 Learn More
-
-- [Vite Documentation](https://vitejs.dev/)
-- [React Documentation](https://react.dev/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [shadcn/ui](https://ui.shadcn.com/)
-- [Radix UI](https://www.radix-ui.com/)
-
-## 🤝 Contributing
-
-Feel free to submit issues and enhancement requests!
-
-**⚡ Powered by [Dala](https://dala.gebeya.com)** - The AI-powered web development platform that helps you build full-stack applications faster.
+### 🚀 [**Live Demo →**](https://9d3390d0.mydala.app/)
 
 ---
 
-## 🤖 What is Dala?
+## The Problem
 
-**[Gebeya Dala](https://dala.gebeya.com)** is an intelligent web development platform that accelerates your React development workflow. Build, preview, and deploy web applications, and instant development environments.
+Imagine trying to scroll through a recipe while your hands are covered in flour from baking, or soaked in soap while washing dishes. Or checking a repair tutorial when your hands are covered in grease from fixing a car. Touching your phone means stopping what you're doing, cleaning your hands, or dirtying the device.
 
-🔗 **Try Dala:** [dala.gebeya.com](https://dala.gebeya.com)
+Voice assistants offer a hands-free alternative, but they're not always practical. In noisy environments, voice commands can be misunderstood, and in quiet places — libraries, classrooms, meetings, or late at night — speaking aloud may be inconvenient or disruptive.
 
-### Why Use Dala?
+These everyday situations highlight the need for an intuitive, touchless, and silent way of interacting with digital devices.
 
-- **AI-Powered Development** - Get intelligent code suggestions and automated component generation
-- **Instant Preview** - See your changes live in real-time sandbox environments
-- **Zero Setup** - No local environment configuration needed
-- **Collaborative** - Build and share projects with your team
-- **Deployment Ready** - One-click deployment to production
+## The Solution
+
+**Gesture Navigator** explores computer vision and deep learning to recognize hand gestures as control commands. By classifying six predefined gestures from a live camera feed, it lays the foundation for a gesture-controlled navigation interface — enabling users to interact with applications naturally, without touching the screen or relying on voice commands.
+
+Rather than a standalone app, Gesture Navigator is designed as a **proof-of-concept feature** — something a cooking app, DIY/repair platform, or craft-tutorial service could integrate to let users navigate hands-free at exactly the moment their hands are busiest.
+
+## Gesture Guide
+
+| Gesture | Action |
+|---|---|
+| ✌️ **Peace** | Toggle navigation on/off (hold 1.5s) |
+| 👆 **Up** | Scroll up |
+| 👇 **Down** | Scroll down |
+| 👈 **Left** | Previous page |
+| 👉 **Right** | Next page |
+| ✋ **Palm** | Click / activate selected item |
+
+## How It Works
+
+1. **Model training** — An `EfficientNetB0`-based classifier was trained on a custom dataset of six hand gestures using transfer learning (frozen ImageNet backbone + a custom classification head).
+2. **In-browser inference** — The trained Keras model was converted to a TensorFlow.js **graph model** and deployed to run entirely client-side — no backend server, no round-trip latency, real-time predictions straight from the webcam feed.
+3. **Gesture-to-action mapping** — Predictions are smoothed across consecutive frames for stability, then mapped to navigation actions (scroll, page-switch, click) in the frontend.
+
+## Tech Stack
+
+- **Model:** TensorFlow / Keras, EfficientNetB0 (transfer learning)
+- **Deployment:** TensorFlow.js (in-browser graph model inference)
+- **Frontend:** React, TypeScript, Tailwind CSS
+- **Training environment:** Google Colab
+
+## Project Status & Limitations
+
+This is an early-stage prototype, and transparency about its current limits matters as much as the demo itself:
+
+- Performance is sensitive to **lighting conditions and background** — the model performs best in consistent, plain-background environments similar to its training data.
+- A couple of gestures (notably **palm**) are currently less reliable than others — primarily a training-data limitation rather than an architectural one.
+- The model was trained on a relatively small, self-collected dataset; broader gesture and user diversity would meaningfully improve robustness.
+
+## Roadmap
+
+- [ ] Expand the training dataset with more lighting conditions, backgrounds, and users
+- [ ] Integrate hand-landmark detection (e.g. MediaPipe) to isolate the hand before classification, reducing background sensitivity
+- [ ] Fine-tune the upper EfficientNet layers for improved accuracy
+- [ ] Optimize for lightweight mobile inference
+- [ ] Extend toward accessibility use cases for users with mobility impairments
+
+## Model Performance
+
+| Model | Test Accuracy |
+|---|---|
+| Baseline CNN | 68.2% |
+| Baseline CNN (40 epochs) | 85.3% |
+| Improved CNN | 87.8% |
+| **EfficientNetB0 (final)** | **96.7%** |
+
+## Acknowledgements
+
+Built as part of the **3MTT (3 Million Technical Talent) Program**, AI/ML learning track.
+
+Special thanks to **[Dala Studio](https://dala.app)** for providing the platform and sponsoring this showcase — the frontend deployment and hosting for this project would not have been possible without their support and credits.
 
 ---
 
-Built with ❤️ by the Dala team to help developers build faster and smarter.
+### 🔗 [**Try the live demo**](https://9d3390d0.mydala.app/)
