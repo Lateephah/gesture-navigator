@@ -71,7 +71,7 @@ This is an early-stage prototype, and transparency about its current limits matt
 
 ## Acknowledgements
 
-Built as part of the **3MTT (3 Million Technical Talent) Program**, AI/ML learning track.
+Built as part of the **3MTT Knowledge Showcase **.
 
 Special thanks to **[Dala Studio](https://dala.app)** for providing the platform and sponsoring this showcase — the frontend deployment and hosting for this project would not have been possible without their support and credits.
 
